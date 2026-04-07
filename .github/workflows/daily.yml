@@ -42,5 +42,5 @@ jobs:
           to: heeju.lee@meritz.co.kr
           from: ${{ secrets.GMAIL_USER }}
           subject: "KOFIA 금리 데이터 ${{ github.run_id }}"
-          body: "안녕하세요, 오늘의 KOFIA 금리 데이터를 첨부합니다."
+          html_body: file://kofia.html
           attachments: kofia.xlsx
