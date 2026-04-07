@@ -75,6 +75,23 @@ def kofia(date: np.datetime64):
 date_str = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
 date = np.datetime64(date_str, "D")
 df = kofia(date)
+
+if df.empty:
+    print("데이터 없음 - 휴일")
+    import sys
+    sys.exit(0)
+
 df.to_excel("kofia.xlsx", index=False)
-df.to_html("kofia.html", index=False, border=1) 
+
+html_content = f"""
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+{df.to_html(index=False, border=1)}
+</body>
+</html>
+"""
+with open("kofia.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
 print("완료!")
