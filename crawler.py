@@ -63,6 +63,10 @@ def kofia(date: np.datetime64):
     for column in numeric_columns:
         df[column] = pd.to_numeric(df[column], errors='coerce')
     df_average = df.groupby(["largeCategoryMrk","typeNmMrk","creditRnkMrk","sigaBrnCd"])[numeric_columns].mean()
+
+    # 이 줄 추가 (소수점 셋째자리까지 내림)
+    df_average = np.floor(df_average * 1000) / 1000
+    
     df_average["date"] = date
     df_average = df_average.reset_index()
     return df_average[["date","largeCategoryMrk","typeNmMrk","creditRnkMrk","sigaBrnCd"] + numeric_columns]
