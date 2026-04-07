@@ -1,0 +1,29 @@
+name: Daily Crawl
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 한국시간 오전 9시 (UTC 00:00)
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 라이브러리 설치
+        run: pip install -r requirements.txt
+
+      - name: 크롤링 실행
+        run: python 파일이름.py
+
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add *.xlsx
+          git commit -m "update: $(date +'%Y-%m-%d')" || echo "변경없음"
+          git push
