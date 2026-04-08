@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 
 LIST_URL  = "https://www.fss.or.kr/fss/bbs/B0000318/list.do?menuNo=200760"
 VIEW_URL  = "https://www.fss.or.kr/fss/bbs/B0000318/view.do?nttId=210264&menuNo=200760&pageIndex=1"
-STATE_FILE = Path("state.json")
+STATE_FILE = Path(__file__).parent / "state.json"
 
 HEADERS = {
     "User-Agent": (
