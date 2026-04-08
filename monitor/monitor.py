@@ -22,14 +22,14 @@ from bs4 import BeautifulSoup
 LISTS = [
     {
         "key":    "list_B0000318",
-        "label":  "지급여력제도 및 감독회계",
+        "label":  "감독원장 제공자료",
         "url":    "https://www.fss.or.kr/fss/bbs/B0000318/list.do?menuNo=200760",
         "menu":   "200760",
         "bbs":    "B0000318",
     },
     {
         "key":    "list_B0000123",
-        "label":  "보험업감독업무시행세칙",
+        "label":  "업무자료",
         "url":    "https://www.fss.or.kr/fss/bbs/B0000123/list.do?menuNo=200424",
         "menu":   "200424",
         "bbs":    "B0000123",
@@ -39,7 +39,7 @@ LISTS = [
 VIEWS = [
     {
         "key":   "view_210264",
-        "label": "감독원장 제공자료 (nttId=210264)",
+        "label": "IFRS17 및 K-ICS 할인율 정보 산출결과",
         "url":   "https://www.fss.or.kr/fss/bbs/B0000318/view.do?nttId=210264&menuNo=200760&pageIndex=1",
     },
 ]
