@@ -64,7 +64,7 @@ jobs:
           server_port: 465
           username: ${{ secrets.GMAIL_USER }}
           password: ${{ secrets.GMAIL_PASSWORD }}
-          to: heeju.lee@meritz.co.kr
+          to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.GMAIL_USER }}
           subject: "KOFIA 금리 데이터 ${{ env.START_DATE }} ~ ${{ env.END_DATE }}"
           html_body: file://crawler/kofia.html
