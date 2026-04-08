@@ -1,7 +1,7 @@
 name: Daily Crawl
 on:
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '0 20 * * *'
   workflow_dispatch:
     inputs:
       start_date:
@@ -37,8 +37,8 @@ jobs:
             echo "START_DATE=${{ github.event.inputs.start_date }}" >> $GITHUB_ENV
             echo "END_DATE=${{ github.event.inputs.end_date }}" >> $GITHUB_ENV
           else
-            echo "START_DATE=$(date -d 'yesterday' +'%Y-%m-%d')" >> $GITHUB_ENV
-            echo "END_DATE=$(date -d 'yesterday' +'%Y-%m-%d')" >> $GITHUB_ENV
+            echo "START_DATE=$(TZ='Asia/Seoul' date -d 'yesterday' +'%Y-%m-%d')" >> $GITHUB_ENV
+            echo "END_DATE=$(TZ='Asia/Seoul' date -d 'yesterday' +'%Y-%m-%d')" >> $GITHUB_ENV
           fi
 
       - name: 크롤링 실행
