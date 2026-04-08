@@ -25,7 +25,7 @@ jobs:
 
       - name: 모니터링 스크립트 실행
         env:
-          to: ${{ secrets.MAIL_TO }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
           SMTP_HOST: "smtp.gmail.com"
           SMTP_PORT: "587"
           SMTP_USER: ${{ secrets.GMAIL_USER }}
