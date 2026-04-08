@@ -99,7 +99,15 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 df_final.to_excel(os.path.join(script_dir, "kofia.xlsx"), index=False)
 
-html_content = f"""..."""  # 기존과 동일
+html_content = f"""
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+{df_final.to_html(index=False, border=1)}
+</body>
+</html>
+"""
+
 with open(os.path.join(script_dir, "kofia.html"), "w", encoding="utf-8") as f:
     f.write(html_content)
 
