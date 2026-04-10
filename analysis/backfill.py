@@ -1,7 +1,7 @@
 """
 kofia_history.csv 가 없을 때 최초 1회만 실행
 과거 1년치 영업일 데이터를 KOFIA API로 수집해 CSV 생성
-analysis.yml 에서 CSV 존재 여부 체크 후 조건부 호출
+analysis.yml 에서 CSV 행 개수 체크 후 조건부 호출
 """
 import os
 import sys
