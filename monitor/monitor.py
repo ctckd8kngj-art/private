@@ -106,7 +106,19 @@ def scrape_view(soup: BeautifulSoup) -> dict:
     body_el = soup.select_one(
         ".dbdata, .bbs_view_con, .view_con, .board_view_content, .cont, #bbs_detail_content"
     )
-    body = body_el.get_text(separator="\n", strip=True) if body_el else ""
+    def el_to_text(el) -> str:
+        """블록 태그 기준으로 줄바꿈 삽입해서 텍스트 추출"""
+        import copy
+        el = copy.copy(el)
+        for tag in el.select("br"):
+            tag.replace_with("\n")
+        for tag in el.select("p, div, li, tr, h1, h2, h3, h4, h5, h6"):
+            tag.insert_before("\n")
+        return el.get_text(separator="", strip=False).strip()
+
+    body = el_to_text(body_el) if body_el else ""
+    # 3줄 이상 연속 빈 줄 → 2줄로 정리
+    body = re.sub(r"\n{3,}", "\n\n", body)
     if len(body) > 1500:
         body = body[:1500] + "\n\n[...본문 생략, 전체 내용은 원문 링크 참조]"
 
