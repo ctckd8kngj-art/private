@@ -8,8 +8,7 @@ import os
 import json
 import requests
 
-ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
-
+ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 def _call(prompt: str) -> str:
     api_key = os.environ.get("GEMINI_API_KEY", "")
