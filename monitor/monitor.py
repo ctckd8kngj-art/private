@@ -6,6 +6,7 @@ FSS 금융감독원 페이지 모니터링 스크립트
 """
 
 import json
+import re
 import os
 import smtplib
 import time
@@ -459,16 +460,10 @@ def send_email(subject: str, body_html: str, all_downloaded: list[dict]):
         if f.get("data") is None:
             continue
         part = MIMEApplication(f["data"])
-        # 파일명 인코딩 (한글 대응)
-        try:
-            fname_encoded = f["name"].encode("utf-8").decode("ascii")
-        except Exception:
-            from email.header import Header
-            fname_encoded = Header(f["name"], "utf-8").encode()
-        part.add_header(
-            "Content-Disposition", "attachment",
-            filename=("utf-8", "", f["name"])
-        )
+        # 한글 파일명: RFC 2047 인코딩 (기업 메일 서버 호환)
+        from email.header import Header
+        encoded_name = Header(f["name"], "utf-8").encode()
+        part["Content-Disposition"] = f'attachment; filename="{encoded_name}"'
         msg.attach(part)
         attached_count += 1
 
