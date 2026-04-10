@@ -10,7 +10,7 @@ import requests
 import numpy as np
 import pandas as pd
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 # build_csv 의 로직 재사용
 sys.path.insert(0, os.path.dirname(__file__))
@@ -81,7 +81,8 @@ def main():
         return
 
     print("[backfill] CSV 없음 — 과거 1년치 수집 시작")
-    end   = datetime.now() - timedelta(days=1)
+    KST = timezone(timedelta(hours=9))
+    end   = datetime.now(KST).replace(tzinfo=None) - timedelta(days=1)
     start = end - timedelta(days=365)
     dates = pd.date_range(start=start, end=end, freq="B")  # 영업일만
 
