@@ -107,14 +107,16 @@ def scrape_view(soup: BeautifulSoup) -> dict:
         ".dbdata, .bbs_view_con, .view_con, .board_view_content, .cont, #bbs_detail_content"
     )
     def el_to_text(el) -> str:
-        """블록 태그 기준으로 줄바꿈 삽입해서 텍스트 추출"""
-        import copy
-        el = copy.copy(el)
-        for tag in el.select("br"):
+        """블록 태그 기준으로 줄바꿈 삽입해서 텍스트 추출 (원본 soup 훼손 없음)"""
+        from bs4 import BeautifulSoup as BS
+        # 원본을 건드리지 않도록 HTML 문자열로 떼어내서 새 soup 생성
+        cloned = BS(str(el), "lxml")
+        for tag in cloned.select("br"):
             tag.replace_with("\n")
-        for tag in el.select("p, div, li, tr, h1, h2, h3, h4, h5, h6"):
+        for tag in cloned.select("p, div, li, tr, h1, h2, h3, h4, h5, h6"):
             tag.insert_before("\n")
-        return el.get_text(separator="", strip=False).strip()
+        text = cloned.get_text(separator="", strip=False).strip()
+        return text
 
     body = el_to_text(body_el) if body_el else ""
     # 3줄 이상 연속 빈 줄 → 2줄로 정리
@@ -440,14 +442,16 @@ def send_email(subject: str, body_html: str, all_downloaded: list[dict]):
         print("[WARN] 메일 환경변수가 설정되지 않아 이메일을 건너뜁니다.")
         return
 
-    # mixed: HTML 본문 + 파일 첨부를 함께 담을 수 있는 타입
+    # 표준 구조: mixed > alternative > html + 첨부파일
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"]    = smtp_user
     msg["To"]      = mail_to
 
-    # HTML 본문
-    msg.attach(MIMEText(body_html, "html", "utf-8"))
+    # HTML 본문은 alternative 컨테이너로 감싸서 첨부파일과 분리
+    alternative = MIMEMultipart("alternative")
+    alternative.attach(MIMEText(body_html, "html", "utf-8"))
+    msg.attach(alternative)
 
     # 실제 파일 첨부
     attached_count = 0
