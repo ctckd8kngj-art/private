@@ -7,11 +7,22 @@ import os
 
 def kofia(date: np.datetime64):
     KOFIA_URL = "https://www.kofiabond.or.kr/proframeWeb/XMLSERVICES/"
+    
     headers = {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         "Accept": "application/xml",
-        "Accept-Encoding": "gzip, deflate, br"
+        "Accept-Encoding": "gzip, deflate, br",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+        "Referer": "https://www.kofiabond.or.kr/",
+        "Origin": "https://www.kofiabond.or.kr",
     }
+    
+    #headers = {
+    #    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    #    "Accept": "application/xml",
+    #    "Accept-Encoding": "gzip, deflate, br"
+    #}
     dt_str = np.datetime_as_string(date, unit='D').replace("-", "")
     print(dt_str)
     xml_data = f'''
